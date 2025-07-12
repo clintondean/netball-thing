@@ -1,0 +1,30 @@
+# Development files
+.git
+.gitignore
+README.md
+LICENSE
+
+# Development dependencies
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Development tools
+.vscode/
+.env.development
+.env.local
+
+# Testing
+test/
+*.test.js
+coverage/
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Build artifacts
+build/
+dist/

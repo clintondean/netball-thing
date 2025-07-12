@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">        <!-- Games List -->
+        <% if (games.length === 0) { %>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-lg border-0 glass-card">
+                        <div class="card-body text-center py-5">
+                            <div class="mb-4">
+                                <div class="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style="width: 100px; height: 100px; background: linear-gradient(45deg, var(--accent-gold), var(--accent-orange));">
+                                    <span class="fs-1 text-white">🏐</span>
+                                </div>
+                            </div>
+                            <h3 class="text-primary mb-3">No games recorded yet</h3>
+                            <p class="text-muted mb-4">Start building your netball game history!</p>
+                            <a href="/" class="btn btn-primary btn-lg">
+                                <span class="fs-5">➕</span>
+                                <span class="ms-2">Add Your First Game</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } else { %> <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="bg-light">
+    <div class="container-fluid py-4">
+        <!-- Header -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h1 class="display-4 fw-bold mb-3">🏆 Game Results</h1>
+                <p class="lead text-white fs-5">View all previous netball games with detailed analytics</p>
+                <div class="decorative-line mx-auto my-4" style="width: 120px; height: 3px; background: linear-gradient(45deg, var(--accent-gold), var(--accent-orange)); border-radius: 2px;"></div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <a href="/" class="btn btn-outline-primary me-3 shadow-sm">
+                    ➕ Add New Game
+                </a>
+                <div class="d-inline-flex align-items-center glass-card px-4 py-2 rounded-pill">
+                    <span class="badge bg-info fs-6 me-2">📊</span>
+                    <span class="text-primary fw-bold">Total Games: <%= games.length %></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Games List -->
+        <% if (games.length === 0) { %>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow border-0">
+                        <div class="card-body text-center py-5">
+                            <h3 class="text-muted">🏐 No games recorded yet</h3>
+                            <p class="text-muted">Start by <a href="/" class="text-decoration-none">adding your first game</a>!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="row g-4">
+                <% games.forEach((game, index) => { %>
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="card shadow-sm border-0 h-100 game-card">
+                            <div class="card-header 
+                                <% if (game.winner === 'team1') { %>bg-success<% } 
+                                   else if (game.winner === 'team2') { %>bg-danger<% } 
+                                   else { %>bg-warning<% } %> text-white">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="mb-0">
+                                        🏐 Game #<%= game.id %>
+                                    </h6>
+                                    <small>
+                                        <%= new Date(game.date).toLocaleDateString('en-US', { 
+                                            weekday: 'short', 
+                                            year: 'numeric', 
+                                            month: 'short', 
+                                            day: 'numeric' 
+                                        }) %>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!-- Score Display -->
+                                <div class="row text-center mb-3">
+                                    <div class="col-5">
+                                        <div class="score-display 
+                                            <% if (game.winner === 'team1') { %>bg-success<% } else { %>bg-light<% } %> 
+                                            text-<% if (game.winner === 'team1') { %>white<% } else { %>dark<% } %> p-3 rounded">
+                                            <h4 class="mb-1"><%= game.scores.team1.total %></h4>
+                                            <small>Team 1</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 d-flex align-items-center justify-content-center">
+                                        <span class="fw-bold text-muted">VS</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="score-display 
+                                            <% if (game.winner === 'team2') { %>bg-danger<% } else { %>bg-light<% } %> 
+                                            text-<% if (game.winner === 'team2') { %>white<% } else { %>dark<% } %> p-3 rounded">
+                                            <h4 class="mb-1"><%= game.scores.team2.total %></h4>
+                                            <small>Team 2</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Winner Badge -->
+                                <div class="text-center mb-3">
+                                    <% if (game.winner === 'team1') { %>
+                                        <span class="badge bg-success fs-6">🎉 Team 1 Wins!</span>
+                                    <% } else if (game.winner === 'team2') { %>
+                                        <span class="badge bg-danger fs-6">🎉 Team 2 Wins!</span>
+                                    <% } else { %>
+                                        <span class="badge bg-warning text-dark fs-6">🤝 Draw!</span>
+                                    <% } %>
+                                </div>
+
+                                <!-- Quarter Breakdown -->
+                                <div class="quarter-breakdown">
+                                    <h6 class="text-muted mb-2">Quarterly Scores:</h6>
+                                    <div class="row g-1 text-center small">
+                                        <div class="col-3">
+                                            <div class="border rounded p-1">
+                                                <div class="fw-bold">Q1</div>
+                                                <div class="text-success"><%= game.scores.team1.quarter1 %></div>
+                                                <div class="text-danger"><%= game.scores.team2.quarter1 %></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="border rounded p-1">
+                                                <div class="fw-bold">Q2</div>
+                                                <div class="text-success"><%= game.scores.team1.quarter2 %></div>
+                                                <div class="text-danger"><%= game.scores.team2.quarter2 %></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="border rounded p-1">
+                                                <div class="fw-bold">Q3</div>
+                                                <div class="text-success"><%= game.scores.team1.quarter3 %></div>
+                                                <div class="text-danger"><%= game.scores.team2.quarter3 %></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="border rounded p-1">
+                                                <div class="fw-bold">Q4</div>
+                                                <div class="text-success"><%= game.scores.team1.quarter4 %></div>
+                                                <div class="text-danger"><%= game.scores.team2.quarter4 %></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <a href="/game/<%= game.id %>" class="btn btn-outline-primary btn-sm w-100">
+                                    📋 View Full Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+
+            <!-- Statistics Summary -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="card shadow border-0">
+                        <div class="card-header bg-info text-white text-center">
+                            <h4 class="mb-0">📊 Quick Stats</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-md-3">
+                                    <div class="stat-item">
+                                        <h5 class="text-primary"><%= games.length %></h5>
+                                        <small class="text-muted">Total Games</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stat-item">
+                                        <h5 class="text-success">
+                                            <%= games.filter(g => g.winner === 'team1').length %>
+                                        </h5>
+                                        <small class="text-muted">Team 1 Wins</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stat-item">
+                                        <h5 class="text-danger">
+                                            <%= games.filter(g => g.winner === 'team2').length %>
+                                        </h5>
+                                        <small class="text-muted">Team 2 Wins</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="stat-item">
+                                        <h5 class="text-warning">
+                                            <%= games.filter(g => g.winner === 'draw').length %>
+                                        </h5>
+                                        <small class="text-muted">Draws</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const gameCards = document.querySelectorAll('.game-card');
+            gameCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
