@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/netball-thing/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netball Thing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+  <script src="api.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container-fluid py-4">
+        <!-- Header -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h1 class="display-3 fw-bold mb-3">🏐 Netball Thing</h1>
+                <p class="lead text-white fs-4">Capture your netball game details with style</p>
+                <div class="decorative-line mx-auto my-4" style="width: 100px; height: 3px; background: linear-gradient(45deg, var(--accent-gold), var(--accent-orange)); border-radius: 2px;"></div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <a href="/results" class="btn btn-outline-info me-3 shadow-sm">
+                    📊 View Previous Games
+                </a>
+                <span class="text-white-50 mx-3">|</span>
+                <button type="button" class="btn btn-outline-secondary ms-3 shadow-sm" onclick="clearForm()">
+                    🗑️ Clear Form
+                </button>
+            </div>
+        </div>
+
+        <form action="javascript:void(0)" onsubmit="handleStaticSubmit(event)" method="POST" id="netballForm">
+            <!-- Game Date -->
+            <div class="row mb-5">
+                <div class="col-12 col-md-8 col-lg-6 mx-auto">
+                    <div class="card shadow-lg border-0 glass-card">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-3">
+                                <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle" style="width: 60px; height: 60px;">
+                                    <span class="fs-2">📅</span>
+                                </div>
+                            </div>
+                            <label for="gameDate" class="form-label fw-bold text-primary fs-5 text-center d-block">
+                                Game Date
+                            </label>
+                            <input type="date" class="form-control form-control-lg shadow-sm" id="gameDate" 
+                                   name="gameDate" required 
+                                   value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Players Grid -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-header text-center py-4">
+                            <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-3" style="width: 70px; height: 70px;">
+                                <span class="fs-1">👥</span>
+                            </div>
+                            <h3 class="mb-0 fw-bold">Team Players</h3>
+                            <p class="mb-0 mt-2 opacity-75">Enter player names for each position</p>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row g-4">
+                                <!-- Team 1 Header -->
+                                <div class="col-4 text-center mb-3">
+                                    <div class="team-header p-3 rounded-3 shadow-sm" style="background: linear-gradient(45deg, var(--success-green), #2ecc71);">
+                                        <h5 class="text-white fw-bold mb-0">Team 1</h5>
+                                    </div>
+                                </div>
+                                <!-- Position Header -->
+                                <div class="col-4 text-center mb-3">
+                                    <div class="team-header p-3 rounded-3 shadow-sm" style="background: linear-gradient(45deg, var(--primary-medium), var(--primary-light));">
+                                        <h5 class="text-white fw-bold mb-0">Position</h5>
+                                    </div>
+                                </div>
+                                <!-- Team 2 Header -->
+                                <div class="col-4 text-center mb-3">
+                                    <div class="team-header p-3 rounded-3 shadow-sm" style="background: linear-gradient(45deg, var(--error-red), #c0392b);">
+                                        <h5 class="text-white fw-bold mb-0">Team 2</h5>
+                                    </div>
+                                </div>
+
+                                <!-- GS Row -->
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team1_GS" 
+                                           placeholder="Goal Shooter" 
+                                           value="">
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="position-badge bg-warning text-dark p-2 rounded fw-bold">
+                                        GS - Goal Shooter
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team2_GS" 
+                                           placeholder="Goal Shooter"
+                                           value="">
+                                </div>
+
+                                <!-- GA Row -->
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team1_GA" 
+                                           placeholder="Goal Attack"
+                                           value="">
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="position-badge bg-info text-white p-2 rounded fw-bold">
+                                        GA - Goal Attack
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team2_GA" 
+                                           placeholder="Goal Attack"
+                                           value="">
+                                </div>
+
+                                <!-- WA Row -->
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team1_WA" 
+                                           placeholder="Wing Attack"
+                                           value="">
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="position-badge bg-success text-white p-2 rounded fw-bold">
+                                        WA - Wing Attack
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team2_WA" 
+                                           placeholder="Wing Attack"
+                                           value="">
+                                </div>
+
+                                <!-- C Row -->
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team1_C" 
+                                           placeholder="Centre"
+                                           value="">
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="position-badge bg-primary text-white p-2 rounded fw-bold">
+                                        C - Centre
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team2_C" 
+                                           placeholder="Centre"
+                                           value="">
+                                </div>
+
+                                <!-- WD Row -->
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team1_WD" 
+                                           placeholder="Wing Defence"
+                                           value="">
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="position-badge bg-secondary text-white p-2 rounded fw-bold">
+                                        WD - Wing Defence
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team2_WD" 
+                                           placeholder="Wing Defence"
+                                           value="">
+                                </div>
+
+                                <!-- GD Row -->
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team1_GD" 
+                                           placeholder="Goal Defence"
+                                           value="">
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="position-badge bg-dark text-white p-2 rounded fw-bold">
+                                        GD - Goal Defence
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team2_GD" 
+                                           placeholder="Goal Defence"
+                                           value="">
+                                </div>
+
+                                <!-- GK Row -->
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team1_GK" 
+                                           placeholder="Goal Keeper"
+                                           value="">
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="position-badge bg-danger text-white p-2 rounded fw-bold">
+                                        GK - Goal Keeper
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <input type="text" class="form-control" name="team2_GK" 
+                                           placeholder="Goal Keeper"
+                                           value="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quarterly Scores -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card shadow-lg border-0">
+                        <div class="card-header text-center py-4">
+                            <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle mb-3" style="width: 70px; height: 70px;">
+                                <span class="fs-1">🏆</span>
+                            </div>
+                            <h3 class="mb-0 fw-bold">Quarterly Scores</h3>
+                            <p class="mb-0 mt-2 opacity-75">Track performance throughout the game</p>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="row g-3">
+                                <!-- Headers -->
+                                <div class="col-2 text-center">
+                                    <h6 class="text-success fw-bold">Team 1</h6>
+                                </div>
+                                <div class="col-2 text-center">
+                                    <h6 class="text-primary fw-bold">Quarter 1</h6>
+                                </div>
+                                <div class="col-2 text-center">
+                                    <h6 class="text-primary fw-bold">Quarter 2</h6>
+                                </div>
+                                <div class="col-2 text-center">
+                                    <h6 class="text-primary fw-bold">Quarter 3</h6>
+                                </div>
+                                <div class="col-2 text-center">
+                                    <h6 class="text-primary fw-bold">Quarter 4</h6>
+                                </div>
+                                <div class="col-2 text-center">
+                                    <h6 class="text-warning fw-bold">Total</h6>
+                                </div>
+
+                                <!-- Team 1 Scores -->
+                                <div class="col-2 text-center">
+                                    <div class="fw-bold text-success">Team 1</div>
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control text-center team1-score" 
+                                           name="team1_q1" min="0" placeholder="0"
+                                           value="">
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control text-center team1-score" 
+                                           name="team1_q2" min="0" placeholder="0"
+                                           value="">
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control text-center team1-score" 
+                                           name="team1_q3" min="0" placeholder="0"
+                                           value="">
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control text-center team1-score" 
+                                           name="team1_q4" min="0" placeholder="0"
+                                           value="">
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-control text-center bg-success text-white fw-bold" id="team1Total">
+                                        0
+                                    </div>
+                                </div>
+
+                                <!-- Team 2 Scores -->
+                                <div class="col-2 text-center">
+                                    <div class="fw-bold text-danger">Team 2</div>
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control text-center team2-score" 
+                                           name="team2_q1" min="0" placeholder="0"
+                                           value="">
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control text-center team2-score" 
+                                           name="team2_q2" min="0" placeholder="0"
+                                           value="">
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control text-center team2-score" 
+                                           name="team2_q3" min="0" placeholder="0"
+                                           value="">
+                                </div>
+                                <div class="col-2">
+                                    <input type="number" class="form-control text-center team2-score" 
+                                           name="team2_q4" min="0" placeholder="0"
+                                           value="">
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-control text-center bg-danger text-white fw-bold" id="team2Total">
+                                        0
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-primary btn-lg px-5 py-3 shadow-lg">
+                        <span class="fs-5">💾</span>
+                        <span class="ms-2 fw-bold">Save Game Data</span>
+                    </button>
+                    <p class="text-white-50 mt-3 small">Click to save your game details to the database</p>
+                </div>
+            </div>
+        </form>
+
+        <!-- Success Message -->
+        
+
+        <!-- Game Summary -->
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/script.js"></script>
+
+<script>
+// Static demo functionality for GitHub Pages
+function handleStaticSubmit(event) {
+  event.preventDefault();
+  alert('This is a static demo. In the full application, this would save your game data!');
+}
+
+// Load demo data if available
+if (window.DEMO_DATA && window.location.pathname.includes('results')) {
+  // This would populate the results page with demo data
+  console.log('Demo data loaded:', window.DEMO_DATA);
+}
+</script>
+</body>
+</html>
